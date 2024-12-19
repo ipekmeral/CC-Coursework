@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: piazza-deployment
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: piazza
+  template:
+    metadata:
+      labels:
+        app: piazza
+    spec:
+      containers:
+      - name: piazza
+        image: <your-dockerhub-username>/piazza_project
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: piazza-service
+spec:
+  selector:
+    app: piazza
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+  type: LoadBalancer
